@@ -1,25 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import AddProduct from "./components/AddProduct";
+import fetchPriceList from "./fetchPriceList";
+import ProductListTable from "./components/ProductListTable";
+import { Container, AppTitleWrapper, Button } from "./Styles";
 
-function App() {
+export default function App() {
+  const [openAddProduct, setOpenAddProduct] = useState(false);
+  const [data, setData] = useState(null);
+
+  function handleAddProductOpen() {
+    setOpenAddProduct(true);
+  }
+
+  useEffect(() => {
+    fetchPriceList(setData);
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Container>
+      <AppTitleWrapper>
+        <h1>Product Price List</h1>
+        <Button primary onClick={handleAddProductOpen}>
+          Add new product
+        </Button>
+      </AppTitleWrapper>
+      <ProductListTable
+        data={data}
+        openAddProduct={openAddProduct}
+        setOpenAddProduct={setOpenAddProduct}
+      />
+      <AddProduct open={openAddProduct} setOpen={setOpenAddProduct} />
+    </Container>
   );
 }
-
-export default App;

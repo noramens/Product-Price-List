@@ -12,16 +12,6 @@ import { AppTitleWrapper, Button, Bolden } from "../Styles";
 import AddProduct from "./AddProduct";
 import DeleteProduct from "./DeleteProduct";
 
-function createData(date, price) {
-  return { date, price };
-}
-
-const rows = [
-  createData("2018/11/02", 159),
-  createData("2019/11/02", 237),
-  createData("2018/05/02", 262),
-];
-
 function ProductDetails({
   classes,
   openDrawer,

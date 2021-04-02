@@ -1,12 +1,13 @@
-import React, { useState } from "react";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import TextField from "@material-ui/core/TextField";
-import { Button } from "../Styles";
+import React, { useState } from 'react';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import TextField from '@material-ui/core/TextField';
+import { Button } from '../Styles';
+import { getNewDate } from '../helpers/utils';
 
-export default function AddProductDialog({ open, setOpen }) {
+export default function AddProductDialog({ open, setOpen, addProduct }) {
   const [values, setValues] = useState({});
 
   const disableAddProductButton = !values || !values.name || !values.price;
@@ -20,13 +21,25 @@ export default function AddProductDialog({ open, setOpen }) {
     setValues({ ...values, [target.name]: target.value });
   }
 
+  function handleAddProductClick() {
+    const id = new Date().getTime();
+    const payload = {
+      id: id,
+      name: values.name,
+      prices: [{ date: getNewDate(), id: id, price: values.price }]
+    };
+    addProduct(payload);
+    handleCloseClick();
+  }
+
   return (
     <Dialog
       open={open}
       onClose={handleCloseClick}
       aria-labelledby="form-dialog-title"
+      data-testid="open"
     >
-      <DialogTitle id="form-dialog-title">Add New Product</DialogTitle>
+      <DialogTitle data-testid="title">Add New Product</DialogTitle>
       <DialogContent>
         <TextField
           autoFocus
@@ -36,6 +49,10 @@ export default function AddProductDialog({ open, setOpen }) {
           type="text"
           fullWidth
           onChange={handleChange}
+          inputProps={{
+            'data-testid': 'product_name',
+            type: 'text'
+          }}
         />
         <TextField
           autoFocus
@@ -45,6 +62,9 @@ export default function AddProductDialog({ open, setOpen }) {
           type="number"
           fullWidth
           onChange={handleChange}
+          inputProps={{
+            'data-testid': 'price'
+          }}
         />
       </DialogContent>
       <DialogActions>
@@ -52,7 +72,8 @@ export default function AddProductDialog({ open, setOpen }) {
           Cancel
         </Button>
         <Button
-          onClick={handleCloseClick}
+          data-testid="add-product-button"
+          onClick={handleAddProductClick}
           disabled={disableAddProductButton}
           primary
         >

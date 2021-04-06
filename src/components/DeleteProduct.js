@@ -1,33 +1,40 @@
-import React from "react";
+import React from 'react';
 import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogTitle,
-} from "@material-ui/core";
-import { Button, DeleteDescription, InfoImage, Bolden } from "../Styles";
+  DialogTitle
+} from '@material-ui/core';
+import { Bolden, Button, DeleteDescription, InfoImage } from '../Styles';
 
 export default function DeleteProduct({
   openDeleteProductDialog,
   handleCloseDeleteDialog,
-  productName,
+  product,
+  deleteProduct
 }) {
+  function handleDeleteProduct() {
+    deleteProduct(product);
+    handleCloseDeleteDialog();
+  }
+
   return (
-    <Dialog open={openDeleteProductDialog} fullWidth={true}>
+    <Dialog open={openDeleteProductDialog} data-testid="open" fullWidth={true}>
       <DialogContent>
-        <DialogTitle>Delete Product</DialogTitle>
+        <DialogTitle data-testid="title">Delete Product</DialogTitle>
         <DeleteDescription>
           <InfoImage />
-          <div>
-            {" "}
-            Are you sure you want to permanently delete{" "}
-            <Bolden> {productName}</Bolden>?{" "}
+          <div data-testid="product-description">
+            Are you sure you want to permanently delete
+            <Bolden> {product && product.name}</Bolden>?
           </div>
         </DeleteDescription>
       </DialogContent>
       <DialogActions>
-        <Button delete>Yes, Delete</Button>
-        <Button onClick={handleCloseDeleteDialog} secondary>
+        <Button delete onClick={handleDeleteProduct}>
+          Yes, Delete
+        </Button>
+        <Button onClick={handleCloseDeleteDialog} data-testid="close" secondary>
           Cancel
         </Button>
       </DialogActions>

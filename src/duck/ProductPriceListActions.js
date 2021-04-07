@@ -5,7 +5,7 @@ export const fetchPriceList = () => async dispatch => {
   dispatch({ type: types.PRODUCT_PRICE_LIST_REQUEST });
   try {
     const { data } = await axios.get(
-      'http://www.mocky.io/v2/5c3e15e63500006e003e9795',
+      'https://www.mocky.io/v2/5c3e15e63500006e003e9795',
       {
         withCredentials: true
       }

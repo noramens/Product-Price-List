@@ -77,5 +77,5 @@ npm test
 Check the coverage of tests written in the application using:
 
 ```sh
-npm test -- --coverage
+npm test --coverage
 ```
